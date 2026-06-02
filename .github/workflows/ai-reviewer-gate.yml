@@ -1,0 +1,87 @@
+name: AI Reviewer Gate
+
+# Turns oas-ai-reviewer's CHANGES_REQUESTED state into an actionable merge gate.
+#
+# Background:
+#   `oas-ai-reviewer` (moltbot-reviewer service) auto-reviews every PR ~15s after
+#   open and on each new commit. Of ~2,750 reviews over 5 weeks, 76 (3%) request
+#   changes — those are real signals that today are advisory-only.
+#
+#   This workflow fails when the most-recent oas-ai-reviewer review on the PR is
+#   `CHANGES_REQUESTED`. Once enabled as a required status check via branch
+#   protection / repository ruleset, AI feedback becomes a merge-blocker that
+#   the author must explicitly address (push a commit → AI re-reviews → gate
+#   re-evaluates). `APPROVED`, `COMMENTED`, dismissed, and "no review yet" all
+#   pass; only an active CHANGES_REQUESTED on the latest review fails.
+#
+# To enable as a required check (admin action, separate from this PR):
+#   - Open the target branch's protection rule (or ruleset) for `main` / `master` / `develop`
+#   - Add `AI Reviewer Gate (oas-ai-reviewer)` to "Require status checks to pass"
+#   - Leave "Require branches to be up to date" unchanged
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  pull_request_review:
+    types: [submitted, edited, dismissed]
+
+concurrency:
+  group: ai-reviewer-gate-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  gate:
+    name: AI Reviewer Gate (oas-ai-reviewer)
+    runs-on: ${{ vars.RUNNER_LABEL || 'blacksmith-2vcpu-ubuntu-2404' }}
+    # Skip draft PRs — AI review on drafts is advisory only.
+    if: github.event.pull_request.draft != true
+    steps:
+      - name: Check oas-ai-reviewer latest review state
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+
+          # Pull all oas-ai-reviewer reviews for this PR, newest last.
+          # `gh api --paginate` handles >100 review history transparently.
+          latest_state=$(gh api "repos/$REPO/pulls/$PR_NUMBER/reviews" --paginate \
+            --jq '[.[] | select(.user.login=="oas-ai-reviewer")]
+                  | sort_by(.submitted_at)
+                  | last.state // "NONE"')
+
+          # Also surface the submission time so the log shows whether AI has
+          # re-reviewed the latest commit yet.
+          latest_meta=$(gh api "repos/$REPO/pulls/$PR_NUMBER/reviews" --paginate \
+            --jq '[.[] | select(.user.login=="oas-ai-reviewer")]
+                  | sort_by(.submitted_at)
+                  | last | {state, submitted_at, commit_id} // null')
+
+          echo "PR #${PR_NUMBER} head: ${PR_HEAD_SHA}"
+          echo "oas-ai-reviewer latest review: ${latest_meta}"
+          echo "Latest state: ${latest_state}"
+
+          case "$latest_state" in
+            CHANGES_REQUESTED)
+              echo ""
+              echo "::error::oas-ai-reviewer has requested changes on this PR."
+              echo "::error::Action required: address the review comments and push a new commit."
+              echo "::error::A fresh AI review (APPROVED or COMMENTED) on the new head will clear this gate."
+              echo "::error::Latest review meta: ${latest_meta}"
+              exit 1
+              ;;
+            APPROVED|COMMENTED|DISMISSED|NONE)
+              echo "AI reviewer gate passed (state=${latest_state})."
+              ;;
+            *)
+              # Unknown state from GitHub — fail closed so we notice.
+              echo "::error::Unknown oas-ai-reviewer review state: ${latest_state}"
+              exit 1
+              ;;
+          esac
