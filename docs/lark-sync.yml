@@ -1,0 +1,44 @@
+# Lark/Feishu sync config for narrator-ai-cli docs/
+# Maps each markdown file to its 飞书 doc destination. After creating
+# the 9 飞书 documents (manually or via lark-cli), fill in doc_token
+# fields below and the lark-docs-sync.yml workflow will push updates
+# on every push to main.
+
+project_prefix: '[Narrator AI CLI]'
+docs:
+- file: user-guide.md
+  title: '[Narrator AI CLI] 用户使用指南'
+  doc_token: TODO  # 待运营在飞书创建文档后填
+  url: TODO
+- file: advanced-tips.md
+  title: '[Narrator AI CLI] 进阶用户技巧'
+  doc_token: TODO
+  url: TODO
+- file: faq-troubleshooting.md
+  title: '[Narrator AI CLI] FAQ & 故障排查'
+  doc_token: TODO
+  url: TODO
+- file: ops-runbook.md
+  title: '[Narrator AI CLI] 运维管理员手册'
+  doc_token: TODO
+  url: TODO
+- file: batch-processing.md
+  title: '[Narrator AI CLI] 高并发批量指南'
+  doc_token: TODO
+  url: TODO
+- file: developer-integration.md
+  title: '[Narrator AI CLI] 开发者集成 & 发版说明'
+  doc_token: TODO
+  url: TODO
+- file: finops.md
+  title: '[Narrator AI CLI] 物料成本对账 FinOps'
+  doc_token: TODO
+  url: TODO
+- file: sales-playbook.md
+  title: '[Narrator AI CLI] 销售作战手册'
+  doc_token: TODO
+  url: TODO
+- file: dependencies.md
+  title: '[Narrator AI CLI] 第三方依赖治理'
+  doc_token: TODO
+  url: TODO
