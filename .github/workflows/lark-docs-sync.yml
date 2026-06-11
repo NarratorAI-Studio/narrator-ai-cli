@@ -1,0 +1,71 @@
+name: Sync docs to Lark
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/**.md'
+      - 'docs/lark-sync.yml'
+      - '.github/workflows/lark-docs-sync.yml'
+      - '.github/scripts/sync-lark-docs.py'
+  workflow_dispatch:
+    inputs:
+      force-all:
+        description: 'Sync every doc listed in lark-sync.yml, not just changed ones'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+        with:
+          node-version: '22'
+
+      - name: Set up Python
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
+        with:
+          python-version: '3.11'
+
+      - name: Install lark-cli + pyyaml
+        run: |
+          npm install -g @larksuite/cli@1.0.0
+          pip install --no-cache-dir pyyaml==6.0.2
+          lark-cli --version
+
+      - name: Configure lark-cli (app-only, plain-string secret)
+        env:
+          LARK_APP_ID: ${{ secrets.LARK_APP_ID }}
+          LARK_APP_SECRET: ${{ secrets.LARK_APP_SECRET }}
+        run: |
+          if [ -z "$LARK_APP_ID" ] || [ -z "$LARK_APP_SECRET" ]; then
+            echo "::error::LARK_APP_ID and LARK_APP_SECRET secrets are required"
+            exit 1
+          fi
+          mkdir -p ~/.lark-cli
+          python3 - <<'PY'
+          import json, os
+          cfg = {"apps":[{
+              "appId": os.environ["LARK_APP_ID"],
+              "appSecret": os.environ["LARK_APP_SECRET"],
+              "brand": "feishu",
+              "lang": "zh",
+              "users": []
+          }]}
+          open(os.path.expanduser("~/.lark-cli/config.json"), "w").write(json.dumps(cfg, ensure_ascii=False, indent=2))
+          PY
+          lark-cli doctor || true
+
+      - name: Run sync
+        env:
+          FORCE_ALL: ${{ github.event.inputs.force-all == 'true' && '1' || '' }}
+        run: |
+          python3 .github/scripts/sync-lark-docs.py
