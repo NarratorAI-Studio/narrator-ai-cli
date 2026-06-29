@@ -1,0 +1,153 @@
+name: New Product Launch
+description: Launch a new product / sub-brand / major product rename (requires the ADR-014 pre-launch naming review)
+title: "Product launch: <product-name> — <your-alias>"
+# Intentionally NOT applying the `task` label here: the org's
+# check-issue-template.yml validator interprets `task` as requiring
+# the Task form's headings (### Work Type / ### Task Description /
+# ### Acceptance Criteria), which this form deliberately doesn't have.
+# The PMO triage queue uses `product-launch` + `needs-naming-review`.
+labels: ["product-launch", "needs-naming-review"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        > **You should be filing this in your own org's `.github` repo**
+        > — e.g. `https://github.com/<YOUR-ORG>/.github/issues/new/choose`,
+        > not in `Gridltd-DevOps/.github`. This template is synced into
+        > every enterprise org's `.github` repo, so it appears in the New
+        > Issue picker of *your* org. Your product team and the PMO see
+        > the issue there and action it.
+
+        **Why this template exists:** [ADR-014](https://github.com/Gridltd-DevOps/architecture-decisions/blob/main/ADR-014.md)
+        codifies a 4-item pre-launch naming review. All four items below
+        are required form fields. PMO (`@Ashley881345`) one-click bounces
+        any Issue with empty / placeholder responses, and the
+        `needs-naming-review` label stays on the Issue until the four
+        checks are filled in and signed off.
+
+        Trigger case for this policy: VividDub/project-hub#23 —
+        operations found same-name competitor `videodubbing.com` + 14
+        failed WeChat-account-name attempts AFTER launch RFC was already
+        approved. This template prevents that recurrence.
+
+  - type: input
+    id: product_name
+    attributes:
+      label: Proposed product name
+      description: The exact string you want to use as the brand. Include casing and any punctuation.
+      placeholder: e.g. VideoDubbing, ChannelDub, CrossLingual
+    validations:
+      required: true
+
+  - type: dropdown
+    id: launch_type
+    attributes:
+      label: Launch type
+      options:
+        - New product
+        - New sub-brand of an existing product
+        - Major rename of an existing product
+    validations:
+      required: true
+
+  - type: textarea
+    id: check_1_competitor_search
+    attributes:
+      label: "Check 1 — Same-name / near-name competitor search"
+      description: |
+        Required: Google + Bing/Baidu front-page screenshots for the exact product name AND key variants. Attach screenshots to this Issue. Summarize whether any same-industry / same-function competitor appears in the front 10 results.
+
+        Cover: Google (exact match) / Google (near-name variants) / Bing / 百度. State PASS / FAIL / NEEDS-REVIEW.
+
+        **Red line**: same-industry same-function competitor in front 10 → rename strongly recommended.
+      placeholder: |
+        Google front-10 (exact "ChannelDub"): screenshot attached. 0 same-industry competitors.
+        Bing front-10: same.
+        百度 front-10: screenshot attached. 1 result is unrelated industry (catering); no conflict.
+        Decision: PASS — no same-industry competitor in front 10.
+    validations:
+      required: true
+
+  - type: textarea
+    id: check_2_originality
+    attributes:
+      label: "Check 2 — Brand-word originality"
+      description: |
+        Required: decompose the name into root words. Mark each root as either (a) industry-generic (Video / AI / Smart / Quick / Pro etc.) or (b) coined / specific. Compute the generic-word share. State PASS / FAIL / NEEDS-REVIEW.
+
+        **Red line**: ≥50% generic-word share → rename recommended.
+      placeholder: |
+        "ChannelDub" = "Channel" (somewhat generic, content-industry) + "Dub" (industry-generic for dubbing). 2/2 = 100% generic → FAIL.
+    validations:
+      required: true
+
+  - type: textarea
+    id: check_3_domain_trademark
+    attributes:
+      label: "Check 3 — Domain + trademark registrability"
+      description: |
+        Required: WHOIS for `.com` (gTLD) + target ccTLD (e.g. `.io` / `.ai` / `.co`). China Trademark Office (`sbj.cnipa.gov.cn`) classes 9 / 35 / 42 search. USPTO TESS + EUIPO eSearch.
+
+        **Red line**: core TLD already held by same-industry party → rename required.
+      placeholder: |
+        .com: held by unrelated party (apparel brand). Available for purchase but expensive.
+        .io: available.
+        .ai: available.
+        cnipa class 9 / 35 / 42: 1 hit in class 42 — unrelated SaaS, expired 2024. Re-application viable.
+        USPTO TESS: 0 conflicts.
+        EUIPO eSearch: 0 conflicts.
+        Decision: PASS conditional on .io as primary, .com long-term acquisition optional.
+    validations:
+      required: true
+
+  - type: textarea
+    id: check_4_china_platforms
+    attributes:
+      label: "Check 4 — China major-platform account pre-screening"
+      description: |
+        Required: name de-duplication check on WeChat Official Account / 视频号 / 小红书 / 抖音 / B站. Do NOT actually register; only run the name check via each platform's signup flow. Report PASS / FAIL / NEEDS-REVIEW + FAIL count out of 5.
+
+        **Red line**: ≥2 mainstream platforms reject the name (including license-required rejections) → rename required.
+      placeholder: |
+        WeChat 公众号 (name check): "ChannelDub" — passes.
+        视频号: passes.
+        小红书: passes.
+        抖音: passes (no signup completion required for name check).
+        B站: passes.
+        Decision: PASS.
+    validations:
+      required: true
+
+  - type: textarea
+    id: launch_overview
+    attributes:
+      label: Launch overview
+      description: After the 4 checks pass, briefly describe the launch — target market, positioning, success metric, owner.
+      placeholder: |
+        Target market: cross-border content teams.
+        Positioning: AI-driven video localization.
+        Success metric: 100 sign-ups in 90 days.
+        Owner: @guomuche.
+    validations:
+      required: true
+
+  - type: input
+    id: product_owner
+    attributes:
+      label: Product owner (GitHub handle)
+      description: The Responsible party for the launch (per ADR-014 RACI). Use the GitHub login from `team/members.yml` (e.g. `guomuche`, not the email local-part `lindenguo`).
+      placeholder: e.g. guomuche
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Pre-submission confirmations
+      options:
+        - label: All four checks above have evidence (screenshots / search results) attached to this Issue
+          required: true
+        - label: No check is in FAIL state OR there is a rationale + escalation path documented for each FAIL
+          required: true
+        - label: PMO (`@Ashley881345`) and the architecture owner (`@KYBvWHxW`) are tagged in a comment after this Issue is created
+          required: true

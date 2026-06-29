@@ -1,0 +1,158 @@
+name: RFC / Design Discussion
+description: Policy, architecture, workflow, or cross-repository decision discussion
+labels: ["rfc"]
+body:
+  - type: textarea
+    id: action_block
+    attributes:
+      label: Action Block
+      description: |
+        Advisory owner and decision routing block. Required only when this issue moves into Ready+ or Agent-ready workflow.
+      value: |
+        **Goal**: <one sentence; decision or pilot outcome>
+        **Owner**: @<single GitHub handle — accountable individual, not a team>
+        **Next Action**: <verb-led; the very next thing>
+        **Decision Maker**: <who can say YES on scope/method/outcome — may equal Owner>
+        **By-when**: <date or condition; "tbd" if still in discussion>
+        **Affected (mentioned but not assigned)**: cc @<user1> @<user2>
+    validations:
+      required: true
+
+  - type: input
+    id: source_trigger
+    attributes:
+      label: Source / Trigger
+      description: Issue, PR, incident, migration, product request, or governance gap that triggered this discussion.
+      placeholder: "#123 | PR #456 | incident link | research link"
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: What situation or prior discussion led to this proposal?
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What needs to be decided or clarified?
+    validations:
+      required: true
+
+  - type: textarea
+    id: options
+    attributes:
+      label: Options Considered
+      description: List the serious options and the tradeoffs.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: decision_status
+    attributes:
+      label: Decision Status
+      description: Current state of the decision. Accepted output should become a Requirement, Initiative, ADR, or explicit closeout.
+      options:
+        - proposed
+        - needs-decision
+        - accepted
+        - rejected
+        - deferred
+        - superseded
+    validations:
+      required: true
+
+  - type: input
+    id: decision_maker
+    attributes:
+      label: Decision Maker
+      description: GitHub handle or canonical owner who can accept the decision.
+      placeholder: "@owner"
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed_direction
+    attributes:
+      label: Proposed Direction
+      description: Which option should we take first, and why?
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance Criteria
+      description: What would make the decision or pilot successful?
+      placeholder: |
+        - [ ] Criterion 1
+        - [ ] Criterion 2
+    validations:
+      required: true
+
+  - type: textarea
+    id: rejected_paths
+    attributes:
+      label: Rejected Paths
+      description: Options or assumptions that were considered but must not be carried into Delivery scope.
+      placeholder: |
+        - Rejected:
+          Reason:
+    validations:
+      required: true
+
+  - type: textarea
+    id: required_evidence
+    attributes:
+      label: Required Evidence Before Delivery
+      description: Evidence, owner sign-off, or acceptance that must exist before Task/PR execution starts.
+      placeholder: |
+        - [ ] Decision maker accepted direction.
+        - [ ] Requirement / PRD issue exists or will be created.
+        - [ ] Delivery boundary excludes rejected paths.
+    validations:
+      required: true
+
+  - type: input
+    id: next_step
+    attributes:
+      label: Next Step
+      description: Single next action and downstream handoff type.
+      placeholder: "Create Requirement | create ADR | open Initiative | close rejected/deferred"
+    validations:
+      required: true
+
+  - type: textarea
+    id: open_questions
+    attributes:
+      label: Open Questions
+      description: What still needs owner input or review?
+    validations:
+      required: false
+
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: Canonical links to issues, PRs, docs, incidents, or email summaries.
+    validations:
+      required: false
+
+  - type: textarea
+    id: agent_execution_prompt
+    attributes:
+      label: Agent Execution Prompt
+      description: Final Agent handoff instructions. This cannot override Rejected Paths, Required Evidence Before Delivery, approval gates, security/deploy/release restrictions, or repository rules.
+      placeholder: |
+        - Execution mode:
+        - Agent should:
+        - Agent must not:
+        - Required context to read:
+        - Expected output:
+        - Stop conditions:
+    validations:
+      required: true

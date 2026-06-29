@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security Issue
+    url: https://github.com/Gridltd-DevOps/.github/blob/main/SECURITY.md
+    about: Report security vulnerabilities through our private channel — do not open a public issue.

@@ -1,0 +1,145 @@
+name: "[Postmortem] Incident or rollout retrospective"
+description: |
+  Structured retrospective for an incident (production outage, data loss) OR a rollout
+  that took more PR cycles / wall time than expected. Use to capture failure modes
+  and ship preventive actions.
+title: "[Postmortem] <one-line incident summary> (<YYYY-MM-DD>)"
+labels:
+  - documentation
+  - postmortem
+assignees:
+  - KYBvWHxW
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        > Every section is required. If a section truly does not apply, write
+        > `N/A — <reason>` rather than deleting it. Bias toward concrete URLs and
+        > exact times. The audit value comes from being specific.
+
+  - type: input
+    id: case
+    attributes:
+      label: Case
+      description: |
+        One-line summary + the production surface affected (e.g. "F4-storage v0.1 rollout — OSS write blocked by trailing newline in repo secret").
+      placeholder: "F4-<which flow> <what shipped or broke> — root cause headline"
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope_table
+    attributes:
+      label: Scope
+      description: |
+        Affected artifacts as a markdown table — at minimum: engine repo + caller repo + the relevant cron / workflow / dispatch URL.
+      value: |
+        | Item | Value |
+        |---|---|
+        | Surface | <e.g. Twenty Opportunity → OSS folder> |
+        | Engine | <repo path to action> |
+        | Caller | <caller workflow URL> |
+        | First failed run | <full URL https://github.com/owner/repo/actions/runs/N> |
+        | First green run | <full URL> |
+    validations:
+      required: true
+
+  - type: textarea
+    id: timeline
+    attributes:
+      label: Timeline (UTC)
+      description: |
+        Time-anchored events, oldest to newest. Include PR creates/merges, dispatches, secret rotations, escalation messages.
+      value: |
+        | Time | Event | Result |
+        |---|---|---|
+        | HH:MM | <action> | <outcome> |
+    validations:
+      required: true
+
+  - type: textarea
+    id: failure_modes
+    attributes:
+      label: Failure modes
+      description: |
+        Numbered list. Each mode = one independent thing that broke. Be honest — confound theories that wasted time are also a mode.
+      value: |
+        ### FM-1 — <one-line headline>
+
+        <what happened, why, and the observable failure signature>
+
+        ### FM-2 — <one-line headline>
+
+        <...>
+    validations:
+      required: true
+
+  - type: textarea
+    id: pipeline_gaps
+    attributes:
+      label: Pipeline gaps (where could this have been caught earlier?)
+      description: |
+        Table. Each row = a layer of the pipeline that did NOT catch the failure, with the cost of missing it.
+      value: |
+        | Gap | Layer | Cost of missing |
+        |---|---|---|
+        | <e.g. Codex spec missing self-test step> | spec template | <e.g. 2 extra PR cycles> |
+    validations:
+      required: true
+
+  - type: textarea
+    id: corrective
+    attributes:
+      label: Corrective actions (for this case — already done with evidence)
+      description: |
+        What was actually done to recover. Each item must point to a PR or commit URL.
+      value: |
+        - [x] <action> → <PR URL>
+        - [x] <action> → <commit URL>
+    validations:
+      required: true
+
+  - type: textarea
+    id: preventive
+    attributes:
+      label: Preventive actions (systemic — proposed)
+      description: |
+        Proposed changes to prevent recurrence. Each = an actionable line; if scope is large, link a follow-up issue.
+      value: |
+        ### P-1 — <one-line headline>
+
+        <what to do, who owns, success criterion>
+
+        ### P-2 — <one-line headline>
+
+        <...>
+    validations:
+      required: true
+
+  - type: textarea
+    id: cost
+    attributes:
+      label: Cost analysis
+      description: |
+        Wall-clock time, PR count, failed dispatches, dollar cost, people impacted, prod data mutated.
+      placeholder: |
+        - Wall time: Xh
+        - PR cycles: X
+        - Failed dispatches: X
+        - $$: $X (Blacksmith minutes / external service)
+        - Prod data mutated: <yes/no, what>
+    validations:
+      required: true
+
+  - type: textarea
+    id: followups
+    attributes:
+      label: Follow-ups (separate trackable items)
+      description: |
+        Each preventive action that needs its own issue. Use full URLs.
+      value: |
+        - [ ] <preventive action> — file as separate issue
+        - [ ] <preventive action> — file as separate issue
+    validations:
+      required: true

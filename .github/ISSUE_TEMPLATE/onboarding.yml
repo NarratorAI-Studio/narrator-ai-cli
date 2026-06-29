@@ -1,0 +1,142 @@
+name: Employee Onboarding
+description: HR-owned onboarding tracker for GitHub and non-GitHub setup evidence
+title: "Onboarding: <name or alias> — <YYYY-MM-DD>"
+labels: ["task"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        HR owns this tracker from creation through close-out. PMO supports
+        coordination and escalation, but is not the default owner.
+
+        Follow `docs/process/onboarding-sop.md`. Do not include credentials,
+        secrets, or unnecessary personal data in this issue.
+
+  - type: dropdown
+    id: work_type
+    attributes:
+      label: Work Type
+      description: Required by the organization issue-template validator.
+      options:
+        - Chore
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Task Description
+      value: |
+        Complete HR-owned onboarding for `<name or alias>` with GitHub and
+        non-GitHub evidence recorded in this tracker.
+    validations:
+      required: true
+
+  - type: input
+    id: employee
+    attributes:
+      label: Employee / alias
+      description: Name, alias, and GitHub login if known.
+      placeholder: "Example: 白木 / dob6y / 4mYHime"
+    validations:
+      required: true
+
+  - type: input
+    id: start_date
+    attributes:
+      label: Start date
+      placeholder: "YYYY-MM-DD"
+    validations:
+      required: true
+
+  - type: input
+    id: hr_owner
+    attributes:
+      label: HR owner
+      placeholder: "@haoer6996"
+    validations:
+      required: true
+
+  - type: input
+    id: manager
+    attributes:
+      label: Direct manager / work owner
+      placeholder: "@github-login"
+    validations:
+      required: true
+
+  - type: textarea
+    id: access_profile
+    attributes:
+      label: Requested access profile
+      description: GitHub orgs, teams, repos, and business systems required for the role.
+      placeholder: |
+        GitHub orgs:
+        Teams:
+        Repos:
+        Business systems:
+    validations:
+      required: true
+
+  - type: textarea
+    id: github_checks
+    attributes:
+      label: GitHub setup checks
+      description: Mark each item done or not applicable with a reason.
+      value: |
+        - [ ] GitHub login and identity mapping confirmed.
+        - [ ] Required org membership added.
+        - [ ] Required team membership added.
+        - [ ] Repo collaborator access added only where team access is insufficient.
+        - [ ] `team/members.yml` member added with `Updated` / `Total` header update.
+        - [ ] CODEOWNERS references added or updated where applicable.
+        - [ ] `roadmap/manifest.yaml` `owner_lead` references added where present.
+        - [ ] `roadmap/owner-mapping.yaml` regenerated or cleaned where present.
+        - [ ] Issue template or ownership routing updated where applicable.
+        - [ ] Related automation verified after setup.
+    validations:
+      required: true
+
+  - type: textarea
+    id: non_github_checks
+    attributes:
+      label: Non-GitHub setup checks
+      description: Use dates, operators, masked IDs, or internal links. Do not add sensitive data.
+      value: |
+        - [ ] Feishu account created and required group membership added.
+        - [ ] `@gridltd.com` mailbox created or confirmed.
+        - [ ] Coze account created where applicable.
+        - [ ] Other business systems created or access granted.
+        - [ ] HR contract, employee record, and start-date setup completed.
+        - [ ] Payroll, housing fund, and social insurance setup completed.
+        - [ ] Devices, access cards, and office access issued where applicable.
+        - [ ] Company bank or account bindings created where applicable, with masked identifiers only.
+        - [ ] Customer or vendor access granted where applicable.
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance Criteria
+      value: |
+        - [ ] Every GitHub setup check is completed or marked not applicable with a reason.
+        - [ ] Every non-GitHub setup check is completed or marked not applicable with a reason.
+        - [ ] Required evidence comments are linked in the close-out summary.
+        - [ ] HR confirms remaining setup risk is `None` or explicitly documented.
+        - [ ] HR posts the final close-out summary and closes this issue.
+    validations:
+      required: true
+
+  - type: textarea
+    id: closeout
+    attributes:
+      label: HR close-out summary
+      description: Fill before closing.
+      placeholder: |
+        GitHub evidence:
+        Non-GitHub evidence:
+        Not applicable items:
+        Remaining risk:
+    validations:
+      required: false

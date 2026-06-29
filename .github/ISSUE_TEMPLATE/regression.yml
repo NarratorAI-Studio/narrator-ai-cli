@@ -1,0 +1,198 @@
+name: Regression
+description: Report a regression — a previously fixed issue that has resurfaced
+labels: ["regression"]
+body:
+  - type: textarea
+    id: action_block
+    attributes:
+      label: Action Block
+      description: |
+        Per v0.2 RFC #482 — Ready+ issues must carry this block. For < 2-day work
+        with no PR, add the `lightweight` label; only Goal / Owner / Decision Maker
+        are then required. See docs/github-native-workflow-v0.2.md.
+      value: |
+        **Goal**: <one sentence; concrete outcome>
+        **Owner**: @<single GitHub handle — accountable individual, not a team>
+        **Next Action**: <verb-led; the very next thing>
+        **Decision Maker**: <who can say YES on scope/method/outcome — may equal Owner>
+        **By-when**: <date or condition; "tbd" if still in Triage>
+        **Affected (mentioned but not assigned)**: cc @<user1> @<user2>
+    validations:
+      required: true
+
+  - type: input
+    id: upstream
+    attributes:
+      label: Upstream / Previous Step
+      description: Source this regression flows from, such as a test failure, release verification, customer report, or incident.
+      placeholder: "Test failure: #123 | Release: #456 | Customer report: <link>"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What regressed? Describe the behavior that was previously fixed but has returned.
+    validations:
+      required: true
+
+  - type: input
+    id: original_issue
+    attributes:
+      label: Original Issue
+      description: Link to the original issue or PR that fixed this behavior.
+      placeholder: "https://github.com/org/repo/issues/123"
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: Provide a minimal set of steps to reproduce the regression.
+      placeholder: |
+        1. Go to ...
+        2. Click on ...
+        3. Observe ...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      description: Initial severity for triage; update after impact is confirmed.
+      options:
+        - sev1-critical
+        - sev2-high
+        - sev3-medium
+        - sev4-low
+    validations:
+      required: true
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact
+      description: What changed for users, customers, CI/CD, Agents, operators, or product behavior?
+      placeholder: |
+        - Affected users / customers:
+        - Product or workflow impact:
+        - CI/CD or operational impact:
+        - Agent collaboration impact:
+    validations:
+      required: true
+
+  - type: textarea
+    id: affected_scope
+    attributes:
+      label: Affected Scope
+      description: Suspected and confirmed blast radius.
+      placeholder: |
+        - Suspected repos / services:
+        - Confirmed affected surfaces:
+        - Known unaffected areas:
+    validations:
+      required: true
+
+  - type: input
+    id: original_requirement
+    attributes:
+      label: Original Requirement
+      description: Requirement, contract, PRD, previous fix, or expected behavior this regression violates.
+      placeholder: "Requirement: #123 | Contract: <link> | Previous fix: #456"
+    validations:
+      required: true
+
+  - type: textarea
+    id: boundary
+    attributes:
+      label: Boundary / Non-goals
+      description: Separate regression repair from new feature work, release operation, migration, permission, or workflow changes.
+      value: |
+        - Restore the previously fixed behavior; new behavior requires a Requirement or approved scope change.
+        - No live ruleset, required-check, branch-protection, workflow dispatch, sync, permission, secret, deploy, release, or downstream repo change without a separate approval issue.
+        - <issue-specific exclusions>
+    validations:
+      required: true
+
+  - type: textarea
+    id: fix_checklist
+    attributes:
+      label: Fix Checklist
+      description: Execution checklist for proving the regression is resolved.
+      value: |
+        - [ ] Confirm last known working version or commit.
+        - [ ] Reproduce current failing behavior or explain why reproduction is not possible.
+        - [ ] Link fix PR or mitigation evidence.
+        - [ ] Add or link regression coverage.
+        - [ ] Recheck the original issue expectation.
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance Criteria
+      description: Verifiable conditions required before this regression can close.
+      placeholder: |
+        - [ ] Previously fixed behavior is restored.
+        - [ ] Original issue expectation is rechecked.
+        - [ ] Regression coverage or manual evidence is linked.
+    validations:
+      required: true
+
+  - type: textarea
+    id: verification_regression
+    attributes:
+      label: Verification / Regression
+      description: Regression scope, commands, screenshots, logs, or evidence required before closing.
+      placeholder: |
+        - Automated verification:
+        - Manual verification:
+        - Regression scope:
+        - Evidence links:
+    validations:
+      required: true
+
+  - type: input
+    id: next_step
+    attributes:
+      label: Next Step
+      description: Single next action and downstream handoff type.
+      placeholder: "Open fix PR | create Test issue | escalate Incident follow-up | close as not reproduced"
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Working Version
+      description: Which version or commit was this last working in?
+      placeholder: e.g. v1.2.0, commit abc1234
+    validations:
+      required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Logs, screenshots, or any other relevant information.
+    validations:
+      required: false
+
+  - type: textarea
+    id: agent_execution_prompt
+    attributes:
+      label: Agent Execution Prompt
+      description: Final Agent handoff instructions. This cannot override Boundary / Non-goals, approval gates, security/deploy/release restrictions, or repository rules.
+      placeholder: |
+        - Execution mode:
+        - Agent should:
+        - Agent must not:
+        - Required context to read:
+        - Expected output:
+        - Stop conditions:
+    validations:
+      required: true

@@ -1,0 +1,123 @@
+name: Repo Creation Request
+description: Request a new repository under one of the Gridltd enterprise orgs (members cannot self-create — see policy)
+title: "Repo creation request: <ORG>/<REPO> — <your-alias>"
+labels: ["task", "repo-request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        > **You should be filing this in your own org's `.github` repo**
+        > — e.g. `https://github.com/<YOUR-ORG>/.github/issues/new/choose`,
+        > not in `Gridltd-DevOps/.github`. This template is synced into
+        > every enterprise org's `.github` repo by `sync-github-repo.yml`,
+        > so it appears in the New Issue picker of *your* org. Your org
+        > owner sees the issue there and actions it.
+
+        Members cannot self-create repos in any Gridltd enterprise org
+        (`members_can_create_repositories=false` is set on every org by
+        policy — repos hold customer / partner / commercial data and
+        creation is gated by org owners). This is intentional governance,
+        not friction.
+
+        File this issue and an owner will action it. Best-effort SLA:
+        **2 business days**. The naming convention is lowercase-hyphenated
+        (e.g. `mufeng`, `chenxiu`, `bizdev-toolkit`). Visibility is `private`
+        by default; `public` requires legal review.
+
+  - type: input
+    id: repo_name
+    attributes:
+      label: Repo name
+      description: Lowercase, hyphenated, scoped to a single project. e.g. `mufeng`, `bizdev-toolkit`, `partner-onboarding-2026`.
+      placeholder: my-new-repo
+    validations:
+      required: true
+
+  - type: dropdown
+    id: target_org
+    attributes:
+      label: Target org
+      description: |
+        Which Gridltd enterprise org should host this repo? List below is kept in
+        sync with the `matrix.org` list in `.github/workflows/sync-github-repo.yml`
+        (the authoritative roster). When that list changes, update this dropdown
+        in the same PR.
+      options:
+        - Gridltd-DevOps
+        - GridLtd-Archive
+        - GridLtd-BizDev
+        - GridLtd-Delivery
+        - GridLtd-Finance
+        - GridLtd-HR
+        - GridLtd-Labs
+        - GridLtd-Legal
+        - GridLtd-MarketIntel
+        - GridLtd-Marketing
+        - GridLtd-OpsPublish
+        - GridLtd-PMO
+        - GridLtd-PR
+        - GridLtd-ProductDev
+        - GridLtd-SecOps
+        - NarratorAI-Studio
+        - OpenAgentSystem
+        - SixPulseOneClick
+        - VividDub
+        - Other (specify in Purpose; org may need pipeline onboarding first)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: visibility
+    attributes:
+      label: Visibility
+      description: Default for most orgs is `private`. `internal` means visible to anyone in the enterprise. `public` requires legal review.
+      options:
+        - private
+        - internal
+        - public (requires legal review)
+    validations:
+      required: true
+
+  - type: textarea
+    id: purpose
+    attributes:
+      label: Purpose
+      description: One paragraph — what this repo is for, who uses it, what kind of content lives here.
+      placeholder: |
+        Example: B端客户跟进资料 + 渠道协作脚本，仅团队内部使用，不对外发布。
+    validations:
+      required: true
+
+  - type: input
+    id: initial_admins
+    attributes:
+      label: Initial Admin(s)
+      description: |
+        GitHub login(s) that should be added as repo Admin on creation. Comma-separated.
+        Include your own login first if you want Admin on the repo — the org owner who actions
+        this issue will only add the logins you list here.
+      placeholder: 823319233-wq, ashley881345
+    validations:
+      required: true
+
+  - type: dropdown
+    id: pipeline_sync
+    attributes:
+      label: Standard pipeline sync
+      description: Should this repo receive the standard enterprise workflows + rulesets from `Gridltd-DevOps/.github` (`sync-github-repo.yml`)? Default is yes; opt out only if there's a clear reason (e.g., a personal sandbox you do not want governed by the standard PR gates).
+      options:
+        - "Yes (default — receives standard pipeline)"
+        - "No (specify reason in Purpose)"
+    validations:
+      required: true
+
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes / context
+      description: |
+        Anything else an owner needs to know — links to related issues, the project roadmap, sensitive-data handling, etc.
+
+        If the repo will need credentials or external integrations, include the credential-backed env vars and rotation plan from docs/repo-creation-request.md#secret-bring-up-checklist.
+    validations:
+      required: false
