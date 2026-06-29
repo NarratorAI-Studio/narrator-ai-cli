@@ -1,0 +1,132 @@
+name: Employee Offboarding
+description: HR-owned offboarding tracker for GitHub and non-GitHub close-out evidence
+title: "Offboarding: <name or alias> — <YYYY-MM-DD>"
+labels: ["task"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        HR owns this tracker from creation through close-out. PMO supports
+        coordination and escalation, but is not the default owner.
+
+        Follow `docs/process/offboarding-sop.md`. Do not include credentials,
+        secrets, or unnecessary personal data in this issue.
+
+  - type: dropdown
+    id: work_type
+    attributes:
+      label: Work Type
+      description: Required by the organization issue-template validator.
+      options:
+        - Chore
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Task Description
+      value: |
+        Complete HR-owned offboarding for `<name or alias>` with GitHub and
+        non-GitHub evidence recorded in this tracker.
+    validations:
+      required: true
+
+  - type: input
+    id: employee
+    attributes:
+      label: Employee / alias
+      description: Name, alias, and GitHub login if known.
+      placeholder: "Example: 白木 / dob6y / 4mYHime"
+    validations:
+      required: true
+
+  - type: input
+    id: effective_date
+    attributes:
+      label: Effective departure date
+      placeholder: "YYYY-MM-DD"
+    validations:
+      required: true
+
+  - type: input
+    id: hr_owner
+    attributes:
+      label: HR owner
+      placeholder: "@haoer6996"
+    validations:
+      required: true
+
+  - type: input
+    id: handoff_owner
+    attributes:
+      label: Work handoff owner
+      description: Direct manager or function owner who accepts work transfer.
+      placeholder: "@github-login"
+    validations:
+      required: true
+
+  - type: textarea
+    id: github_checks
+    attributes:
+      label: GitHub close-out checks
+      description: Mark each item done or not applicable with a reason.
+      value: |
+        - [ ] Open issues reassigned.
+        - [ ] Open PR assignees and review requests cleared or reassigned.
+        - [ ] CODEOWNERS references removed or reassigned.
+        - [ ] `team/members.yml` hard delete completed with `Updated` / `Total` header update.
+        - [ ] `roadmap/manifest.yaml` `owner_lead` references reassigned where present.
+        - [ ] `roadmap/owner-mapping.yaml` regenerated or cleaned where present.
+        - [ ] Repo collaborator access removed.
+        - [ ] Org membership removed across Gridltd enterprise orgs where present.
+        - [ ] Org team membership removed.
+        - [ ] Pending org invitations checked and cancelled where present.
+        - [ ] Related automation verified not to reintroduce stale access or ownership.
+    validations:
+      required: true
+
+  - type: textarea
+    id: non_github_checks
+    attributes:
+      label: Non-GitHub close-out checks
+      description: Use dates, operators, masked IDs, or internal links. Do not add sensitive data.
+      value: |
+        - [ ] Feishu account disabled or transferred.
+        - [ ] Feishu group membership removed where applicable.
+        - [ ] `@gridltd.com` mailbox disabled or forwarded where applicable.
+        - [ ] Coze account disabled where applicable.
+        - [ ] Other business systems disabled or handed over.
+        - [ ] HR contract termination and departure certificate completed.
+        - [ ] Payroll, housing fund, and social insurance handling completed.
+        - [ ] Devices, access cards, and office access returned or disabled.
+        - [ ] Company bank or account bindings removed where applicable, with masked identifiers only.
+        - [ ] Customer or vendor handoff completed where applicable.
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance Criteria
+      value: |
+        - [ ] Every GitHub check is completed or marked not applicable with a reason.
+        - [ ] Every non-GitHub check is completed or marked not applicable with a reason.
+        - [ ] Required evidence comments are linked in the close-out summary.
+        - [ ] HR confirms remaining risk is `None` or explicitly documented.
+        - [ ] HR posts the final close-out summary and closes this issue.
+    validations:
+      required: true
+
+  - type: textarea
+    id: closeout
+    attributes:
+      label: HR close-out summary
+      description: Fill before closing.
+      placeholder: |
+        GitHub evidence:
+        Non-GitHub evidence:
+        Not applicable items:
+        Remaining risk:
+    validations:
+      required: false

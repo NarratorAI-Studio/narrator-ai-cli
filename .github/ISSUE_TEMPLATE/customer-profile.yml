@@ -1,0 +1,141 @@
+###############################################################################
+# 销售线索仓库 (leads-*) — 客户档案 Issue Form
+# 对应蓝图：①准入 → 项目发掘 → 立项审批
+###############################################################################
+name: "客户档案"
+description: "创建新客户/线索档案"
+labels: ["type:lead", "stage:new"]
+body:
+  - type: dropdown
+    id: channel
+    attributes:
+      label: 渠道来源
+      description: 客户从哪个渠道进入
+      options:
+        - "抖音 / TikTok"
+        - "小红书 / 知乎"
+        - "X / YouTube"
+        - "落地页表单"
+        - "主动情报挖掘"
+        - "转介绍"
+        - "其他"
+    validations:
+      required: true
+
+  - type: input
+    id: contact_name
+    attributes:
+      label: 联系人姓名
+      placeholder: "张三"
+    validations:
+      required: true
+
+  - type: input
+    id: contact_info
+    attributes:
+      label: 联系方式
+      description: 微信/邮箱/手机号
+      placeholder: "微信: xxx | 邮箱: xxx@xxx.com"
+    validations:
+      required: true
+
+  - type: input
+    id: company
+    attributes:
+      label: 公司/品牌名称
+      placeholder: "某某科技有限公司"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: industry
+    attributes:
+      label: 行业
+      options:
+        - "电商"
+        - "教育"
+        - "SaaS"
+        - "MCN/媒体"
+        - "跨境电商"
+        - "本地生活"
+        - "金融"
+        - "其他"
+    validations:
+      required: true
+
+  - type: textarea
+    id: demand
+    attributes:
+      label: 需求描述
+      description: 客户的具体需求是什么？
+      placeholder: |
+        - 需要什么产品/服务：
+        - 预期效果/目标：
+        - 时间要求：
+    validations:
+      required: true
+
+  - type: dropdown
+    id: budget_range
+    attributes:
+      label: 预算范围
+      options:
+        - "< 5,000"
+        - "5,000 - 20,000"
+        - "20,000 - 50,000"
+        - "50,000 - 100,000"
+        - "> 100,000"
+        - "未确认"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: urgency
+    attributes:
+      label: 紧急程度
+      options:
+        - "1 周内需要"
+        - "1 个月内"
+        - "季度内"
+        - "仅在了解阶段"
+    validations:
+      required: true
+
+  - type: textarea
+    id: scoring
+    attributes:
+      label: 立项评分（满分 30 分，≥ 18 分方可立项）
+      description: |
+        逐项打分：需求真实性(0-5) + 预算匹配(0-5) + 交付可行性(0-5) +
+        时间匹配(0-5) + 复购潜力(0-5) + 战略价值(0-5)
+      value: |
+        | 维度 | 分数(0-5) | 依据 |
+        |------|-----------|------|
+        | 需求真实性 | | |
+        | 预算匹配 | | |
+        | 交付可行性 | | |
+        | 时间匹配 | | |
+        | 复购潜力 | | |
+        | 战略价值 | | |
+        | **总分** | **/30** | |
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance Criteria
+      description: 线索跟进的验收标准（至少 2 条 checkbox）
+      value: |
+        - [ ] 首次联系已完成，需求已确认
+        - [ ] 评分 ≥ 18 且立项审批通过（或评分 < 18 已标记淘汰）
+    validations:
+      required: true
+
+  - type: input
+    id: next_step
+    attributes:
+      label: 下一步动作
+      placeholder: "发送产品介绍 | 安排线上演示 | 等待客户反馈 | 标记淘汰"
+    validations:
+      required: true

@@ -1,0 +1,167 @@
+name: Task
+description: Engineering task — refactor, chore, docs, perf, test, or style
+labels: ["task"]
+body:
+  - type: textarea
+    id: action_block
+    attributes:
+      label: Action Block
+      description: |
+        Per v0.2 RFC #482 — Ready+ issues must carry this block. For < 2-day work
+        with no PR, add the `lightweight` label; only Goal / Owner / Decision Maker
+        are then required. See docs/github-native-workflow-v0.2.md.
+      value: |
+        **Goal**: <one sentence; concrete outcome>
+        **Owner**: @<single GitHub handle — accountable individual, not a team>
+        **Next Action**: <verb-led; the very next thing>
+        **Decision Maker**: <who can say YES on scope/method/outcome — may equal Owner>
+        **By-when**: <date or condition; "tbd" if still in Triage>
+        **Affected (mentioned but not assigned)**: cc @<user1> @<user2>
+    validations:
+      required: true
+
+  - type: input
+    id: upstream
+    attributes:
+      label: Upstream / Previous Step
+      description: Accepted source issue this task flows from. Do not use raw Research or Discussion as the only execution source.
+      placeholder: "Parent: #123 | Source requirement: #456 | Exception: #789"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: work_type
+    attributes:
+      label: Work Type
+      description: Select the Conventional Commit type that best fits this task.
+      options:
+        - Refactor
+        - Chore
+        - Docs
+        - Perf
+        - Test
+        - Style
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Task Description
+      description: What needs to be done and why?
+    validations:
+      required: true
+
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact
+      description: What changes for users, customers, CI/CD, Agents, operators, or product behavior?
+      placeholder: |
+        - User / customer impact:
+        - CI/CD or operational impact:
+        - Agent collaboration impact:
+    validations:
+      required: true
+
+  - type: textarea
+    id: affected_scope
+    attributes:
+      label: Affected Scope
+      description: Concrete repos, services, files, workflows, product surfaces, customer groups, or release areas in scope.
+      placeholder: |
+        - Repos / services:
+        - Files / workflows:
+        - Product surfaces:
+        - Outbound dependencies:
+    validations:
+      required: true
+
+  - type: input
+    id: original_requirement
+    attributes:
+      label: Original Requirement
+      description: Requirement, PRD, bug report, incident, test failure, or approval issue this task satisfies.
+      placeholder: "Requirement: #123 | PRD: <link> | Incident: #456"
+    validations:
+      required: true
+
+  - type: textarea
+    id: boundary
+    attributes:
+      label: Boundary / Non-goals
+      description: Explicitly list excluded work, stop conditions, and approval-gated actions.
+      value: |
+        - No live ruleset, required-check, branch-protection, workflow dispatch, sync, permission, secret, deploy, release, or downstream repo change without a separate approval issue.
+        - <issue-specific exclusions>
+    validations:
+      required: true
+
+  - type: textarea
+    id: checklist
+    attributes:
+      label: Checklist
+      description: Ordered execution checklist for this task. Keep each item independently verifiable.
+      value: |
+        - [ ] Read upstream requirement and boundary.
+        - [ ] Implement the scoped change.
+        - [ ] Run verification and record evidence.
+        - [ ] Update linked issue or hand off next step.
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance Criteria
+      description: Use a checklist to define when this task is complete.
+      placeholder: |
+        - [ ] Criterion 1
+        - [ ] Criterion 2
+    validations:
+      required: true
+
+  - type: textarea
+    id: verification_regression
+    attributes:
+      label: Verification / Regression
+      description: Commands, evidence links, regression scope, or reason validation is not applicable.
+      placeholder: |
+        - Automated verification:
+        - Manual verification:
+        - Regression scope:
+        - Not applicable reason:
+    validations:
+      required: true
+
+  - type: input
+    id: next_step
+    attributes:
+      label: Next Step
+      description: Single next action and downstream handoff type.
+      placeholder: "Open PR | create Test issue | create Release issue | close with evidence | hand off to #123"
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Related issues, dependencies, technical notes, or migration context.
+    validations:
+      required: false
+
+  - type: textarea
+    id: agent_execution_prompt
+    attributes:
+      label: Agent Execution Prompt
+      description: Final Agent handoff instructions. This cannot override Boundary / Non-goals, approval gates, security/deploy/release restrictions, or repository rules.
+      placeholder: |
+        - Execution mode:
+        - Agent should:
+        - Agent must not:
+        - Required context to read:
+        - Expected output:
+        - Stop conditions:
+    validations:
+      required: true

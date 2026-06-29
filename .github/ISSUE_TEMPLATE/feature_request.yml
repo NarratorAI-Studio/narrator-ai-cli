@@ -1,0 +1,188 @@
+name: Feature Request
+description: Propose a new feature or enhancement
+labels: ["feature"]
+body:
+  - type: textarea
+    id: action_block
+    attributes:
+      label: Action Block
+      description: |
+        Per v0.2 RFC #482 — Ready+ issues must carry this block. For < 2-day work
+        with no PR, add the `lightweight` label; only Goal / Owner / Decision Maker
+        are then required. See docs/github-native-workflow-v0.2.md.
+      value: |
+        **Goal**: <one sentence; concrete outcome>
+        **Owner**: @<single GitHub handle — accountable individual, not a team>
+        **Next Action**: <verb-led; the very next thing>
+        **Decision Maker**: <who can say YES on scope/method/outcome — may equal Owner>
+        **By-when**: <date or condition; "tbd" if still in Triage>
+        **Affected (mentioned but not assigned)**: cc @<user1> @<user2>
+    validations:
+      required: true
+
+  - type: dropdown
+    id: lifecycle_phase
+    attributes:
+      label: Lifecycle Phase
+      description: Use Discovery for raw research/discussion and Definition for accepted Requirement / PRD work. Delivery tasks should use the Task template.
+      options:
+        - Discovery - research or discussion
+        - Definition - requirement or PRD
+        - Delivery planning - initiative candidate
+        - Migration / compatibility
+    validations:
+      required: true
+
+  - type: input
+    id: source_trigger
+    attributes:
+      label: Source / Trigger
+      description: Where this request came from, such as customer feedback, research, PMO request, incident follow-up, or prior discussion.
+      placeholder: "Customer feedback: <link> | Research: #123 | Discussion: #456"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Clearly describe the feature or change you are proposing.
+    validations:
+      required: true
+
+  - type: textarea
+    id: use_case
+    attributes:
+      label: Use Case
+      description: What problem does this solve? Who benefits and in what scenario?
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected_outcome
+    attributes:
+      label: Expected Outcome
+      description: What measurable result or business value does this deliver?
+    validations:
+      required: true
+
+  - type: textarea
+    id: impact_scope
+    attributes:
+      label: Impact Scope
+      description: Product, user, customer, operational, repo, workflow, or Agent surfaces that could change if accepted.
+      placeholder: |
+        - Product / user impact:
+        - Customer or operations impact:
+        - Repos / workflows:
+        - Agent collaboration impact:
+    validations:
+      required: true
+
+  - type: textarea
+    id: in_scope
+    attributes:
+      label: In Scope
+      description: What the accepted requirement would include.
+      placeholder: |
+        - <included behavior or outcome>
+    validations:
+      required: true
+
+  - type: textarea
+    id: out_of_scope
+    attributes:
+      label: Out of Scope
+      description: Rejected paths, non-goals, and assumptions that must not leak into Delivery tasks.
+      placeholder: |
+        - <excluded behavior, rejected path, or deferred option>
+    validations:
+      required: true
+
+  - type: dropdown
+    id: decision_status
+    attributes:
+      label: Decision Status
+      description: Delivery work should not start until the decision is accepted or an explicit exception is linked.
+      options:
+        - proposed
+        - needs-decision
+        - accepted
+        - rejected
+        - deferred
+        - superseded
+    validations:
+      required: true
+
+  - type: input
+    id: decision_maker
+    attributes:
+      label: Decision Maker
+      description: GitHub handle or canonical owner who can approve scope and acceptance.
+      placeholder: "@owner"
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance Criteria
+      description: Requirement-level acceptance criteria. Use Task issues for implementation checklists.
+      placeholder: |
+        - [ ] Outcome is measurable.
+        - [ ] In-scope and out-of-scope boundaries are clear.
+        - [ ] Validation plan is defined.
+    validations:
+      required: true
+
+  - type: textarea
+    id: validation_plan
+    attributes:
+      label: Validation Plan
+      description: How the accepted requirement will be validated before release or closeout.
+      placeholder: |
+        - Test evidence:
+        - Metrics / acceptance signal:
+        - Release or rollout check:
+    validations:
+      required: true
+
+  - type: input
+    id: next_step
+    attributes:
+      label: Next Step
+      description: Single next action and downstream handoff type.
+      placeholder: "Open Discussion | mark accepted Requirement | create Initiative | create Task | close/defer"
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Have you considered other approaches? Why is this one preferred?
+    validations:
+      required: false
+
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: Links to related docs, designs, or prior discussions.
+    validations:
+      required: false
+
+  - type: textarea
+    id: agent_execution_prompt
+    attributes:
+      label: Agent Execution Prompt
+      description: Final Agent handoff instructions. This cannot override Out of Scope, approval gates, security/deploy/release restrictions, or repository rules.
+      placeholder: |
+        - Execution mode:
+        - Agent should:
+        - Agent must not:
+        - Required context to read:
+        - Expected output:
+        - Stop conditions:
+    validations:
+      required: true
