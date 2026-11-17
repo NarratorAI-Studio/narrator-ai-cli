@@ -58,7 +58,7 @@ TODO @4mYHime — 退款触发条件 + 沟通话术。
 
 ## 6. 容量规划
 
-TODO @zhaojunlucky + @lxjmaster — 季度容量预估 + 渲染服务器扩缩容触发条件。
+TODO 运维执行人待指定；@lxjmaster 保留既有协作职责 — 季度容量预估 + 渲染服务器扩缩容触发条件。
 
 ## 相关链接
 

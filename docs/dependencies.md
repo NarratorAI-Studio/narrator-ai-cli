@@ -2,7 +2,8 @@
 
 > **更新频率**：on dependency add / remove / version pin / vendor change
 > **同步源**：`NarratorAI-Studio/narrator-ai-cli/docs/dependencies.md`
-> **owner**：@zhaojunlucky @lxjmaster
+> **owner**：@lxjmaster
+> **基础设施与凭据治理执行人**：待指定；既有其他负责人保持原样。
 
 ## TL;DR
 
@@ -14,19 +15,19 @@ narrator-ai-cli + backend 依赖以下第三方服务：LLM (OpenRouter / Claude
 |------|------|---------|--------|---------|----------|
 | LLM | 解说稿生成 | OpenRouter (Claude / GPT) | Anthropic direct | Infisical | @lxjmaster |
 | TTS | 配音合成 | TODO 主流 TTS 服务 | TODO | Infisical | @4mYHime |
-| 视频渲染 | 视频合成 | 自建队列 | TODO | Fly.io | @zhaojunlucky |
-| Postgres | 任务 + 用户数据 | Fly.io managed | TODO 备份导出 | flyctl secrets | @zhaojunlucky |
-| Redis | 队列 + 缓存 | Fly.io self-hosted | TODO | flyctl secrets | @zhaojunlucky |
+| 视频渲染 | 视频合成 | 自建队列 | TODO | Fly.io | 待指定 |
+| Postgres | 任务 + 用户数据 | Fly.io managed | TODO 备份导出 | flyctl secrets | 待指定 |
+| Redis | 队列 + 缓存 | Fly.io self-hosted | TODO | flyctl secrets | 待指定 |
 | 飞书 OAuth | 用户登录 | Lark/Feishu | TODO | Infisical | @lxjmaster |
 | 百度网盘 | 成品交付 | 百度 | TODO 网盘备份 | Infisical | @candytan889 |
-| SMTP | 邮件交付 | Stalwart on Fly.io | TODO | Infisical | @zhaojunlucky |
+| SMTP | 邮件交付 | Stalwart on Fly.io | TODO | Infisical | 待指定 |
 | Twenty CRM | 客户档案 | GridLtd-BizDev/twenty-crm-deploy | N/A | keychain | @KYBvWHxW |
 
 ## 2. 凭据轮换
 
 详见 Memory `reference_oas_rotation_runbook.md` + `feedback_credential_overgrant.md`（DO PAT / GitHub PAT 等 issue-once-immutable 凭据，配 scope 宁多勿少）。
 
-季度由 @zhaojunlucky 跑一次全量凭据 audit。
+季度全量凭据 audit 的执行人待指定；实际操作须遵守独立授权范围。
 
 ## 3. 版本固定
 
@@ -49,7 +50,7 @@ GitHub Actions third-party：必须 pin 到 40-char commit SHA，不用 mutable 
 TODO @lxjmaster —
 1. 在 project-hub 开 RFC Issue 评估
 2. 安全 review by @Sylvia7799 + @security_expert agent
-3. 凭据治理 by @zhaojunlucky
+3. 凭据治理执行人待指定，确认授权后办理
 4. PR 含本文档更新
 5. ADR 归档（如适用）
 

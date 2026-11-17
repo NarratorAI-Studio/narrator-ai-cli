@@ -59,8 +59,8 @@ TODO @pluckhuang —
 |--------|------|
 | AI reviewer (oas-ai-reviewer) | ✅ (.github/workflows/ai-reviewer-gate.yml) |
 | CI tests | ✅ (.github/workflows/ci.yml) |
-| Lark docs sync | ✅ (.github/workflows/lark-docs-sync.yml) — 本 PR 引入 |
-| Auto release on tag | TODO @zhaojunlucky |
+| Lark docs sync | 工作流已存在；`docs/lark-sync.yml` 的 9 个目标映射尚未配置，当前不能确认同步已生效 |
+| Auto release on tag | TODO 执行人待指定 |
 
 ## 相关链接
 

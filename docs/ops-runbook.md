@@ -2,7 +2,8 @@
 
 > **更新频率**：on infra / pipeline / deploy change
 > **同步源**：`NarratorAI-Studio/narrator-ai-cli/docs/ops-runbook.md`
-> **owner**：@zhaojunlucky @lxjmaster
+> **owner**：@lxjmaster
+> **运维执行人**：待指定；本文档不指定新的基础设施、凭据或发布负责人。
 
 ## TL;DR
 
@@ -10,7 +11,7 @@ narrator-ai-cli 运行时依赖 narrator-ai backend（FastAPI on GridLtd-Product
 
 ## 1. 架构概览
 
-TODO @zhaojunlucky —
+TODO 运维执行人待指定 —
 ```
 narrator-ai-cli (用户机器)
     ↓ HTTPS
@@ -23,7 +24,7 @@ narrator-ai backend (GridLtd-ProductDev/open-fastapi on Fly.io / Aliyun)
 
 ## 2. 部署 / 升级流程
 
-TODO @zhaojunlucky — 参考 `GridLtd-BizDev/twenty-crm-deploy/docs/ops-runbook.md` 同款节奏。
+TODO 运维执行人待指定 — 参考 `GridLtd-BizDev/twenty-crm-deploy/docs/ops-runbook.md` 同款节奏。
 
 ## 3. 监控 + 告警
 
@@ -39,14 +40,14 @@ TODO @zhaojunlucky — 参考 `GridLtd-BizDev/twenty-crm-deploy/docs/ops-runbook
 
 ## 5. 故障升级 + 复盘流程
 
-TODO @zhaojunlucky —
+TODO 运维执行人待指定 —
 - 24h 内复盘归档对应 Issue
 - 是否升级 ADR 由 @lxjmaster 判断
 - 与 GridLtd-SecOps 协同 on-call
 
 ## 6. 数据备份
 
-TODO @zhaojunlucky —
+TODO 运维执行人待指定 —
 - Postgres / Redis 备份周期
 - 飞书 bitable 数据导出周期
 - 用户素材 retention 政策（订单完结 7 天后清理）
